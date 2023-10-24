@@ -1,0 +1,31 @@
+version: "3.8"
+
+services:
+  database:
+    image: postgres:13
+    container_name: pg_database
+    user: root
+    ports: 
+      - 5432:5432
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+    volumes:
+      - ./data:/var/lib/postgresql/data
+      - ./backup:/var/lib/postgresql/backup
+    networks:
+      clusternetwork:
+        ipv4_address: 172.30.240.10
+      
+volumes:
+  data:
+  backup:
+
+networks:
+  clusternetwork:
+    name: local
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.30.240.0/24
